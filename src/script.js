@@ -82,10 +82,16 @@ const gui = new dat.GUI();
 /* Change the color of the sphere */
 const options = {
   sphereColor: "#ffea00",
+  /* Add a checkbox to show the mesh in its wireframe mode when it's checked. */
+  wireframe: false,
 };
 
 gui.addColor(options, "sphereColor").onChange((e) => {
   sphere.material.color.set(e);
+});
+
+gui.add(options, "wireframe").onChange(function (e) {
+  sphere.material.wireframe = e;
 });
 
 function animate(time) {
