@@ -94,10 +94,17 @@ gui.add(options, "wireframe").onChange(function (e) {
   sphere.material.wireframe = e;
 });
 
+/* Make the sphere bounce */
+let step = 0;
+let speed = 0.01;
+
 function animate(time) {
   box.rotation.x = time / 1000;
   box.rotation.y = time / 1000;
 
+  /* Make the sphere bounce */
+  step += speed;
+  sphere.position.y = 10 * Math.abs(Math.sin(step));
   /* Link the scene with the camera */
   renderer.render(scene, camera);
 }
