@@ -61,6 +61,10 @@ scene.add(gridHelper);
 /* Reduce the width and height segments to have a less rounded sphere; 
 add the last 10, 10 */
 const sphereGeo = new THREE.SphereGeometry(4, 50, 50);
+
+/* Change the material. 
+With MeshStandardMaterial or MeshLambertMaterial, 
+the sphere is black because it has no light. */
 const sphereMat = new THREE.MeshBasicMaterial({
   color: 0x0000ff,
   /* remove the color */
@@ -68,6 +72,9 @@ const sphereMat = new THREE.MeshBasicMaterial({
 });
 const sphere = new THREE.Mesh(sphereGeo, sphereMat);
 scene.add(sphere);
+
+// sphere.position.x = -10;
+sphere.position.set(-10, 10, 0);
 
 function animate(time) {
   box.rotation.x = time / 1000;
