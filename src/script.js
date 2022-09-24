@@ -16,7 +16,7 @@ document.body.appendChild(renderer.domElement);
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
-  75, // field of view (usually a value between 40 - 80)
+  45, // field of view (usually a value between 40 - 80)
   window.innerWidth / window.innerHeight, // aspect
   0.1, // near
   1000 // far
@@ -30,7 +30,7 @@ const axesHelper = new THREE.AxesHelper(3); // 5 is the length of the axes.
 scene.add(axesHelper);
 
 // x, y, z
-camera.position.set(0, 2, 5);
+camera.position.set(-10, 30, 30);
 orbit.update(); // Important! update every time we set the camera position
 // camera.position.z = 3;
 // camera.position.y = 2;
@@ -40,6 +40,23 @@ const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const box = new THREE.Mesh(geometry, material);
 scene.add(box);
+
+// Plane
+const planeGeo = new THREE.PlaneGeometry(30, 30);
+const planeMaterial = new THREE.MeshBasicMaterial({
+  color: 0xffffff,
+  /* Add the side prop to the material, to see it also from behind.  */
+  side: THREE.DoubleSide,
+});
+const plane = new THREE.Mesh(planeGeo, planeMaterial);
+scene.add(plane);
+
+/* Make the plane match the grid, we rotate it. */
+plane.rotation.x = -0.5 * Math.PI;
+
+// size of grid = 30 / amount of squares = 50
+const gridHelper = new THREE.GridHelper(30, 50);
+scene.add(gridHelper);
 
 function animate(time) {
   box.rotation.x = time / 1000;
