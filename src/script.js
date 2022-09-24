@@ -84,6 +84,7 @@ const options = {
   sphereColor: "#ffea00",
   /* Add a checkbox to show the mesh in its wireframe mode when it's checked. */
   wireframe: false,
+  speed: 0.01,
 };
 
 gui.addColor(options, "sphereColor").onChange((e) => {
@@ -94,16 +95,19 @@ gui.add(options, "wireframe").onChange(function (e) {
   sphere.material.wireframe = e;
 });
 
+/* min val = 0 / max = 0.1 */
+gui.add(options, "speed", 0, 0.1);
+
 /* Make the sphere bounce */
 let step = 0;
-let speed = 0.01;
+// let speed = 0.01;
 
 function animate(time) {
   box.rotation.x = time / 1000;
   box.rotation.y = time / 1000;
 
   /* Make the sphere bounce */
-  step += speed;
+  step += options.speed;
   sphere.position.y = 10 * Math.abs(Math.sin(step));
   /* Link the scene with the camera */
   renderer.render(scene, camera);
