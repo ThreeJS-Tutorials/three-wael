@@ -1,6 +1,7 @@
 /* Create a name space */
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import * as dat from "dat.gui";
 
 /* Create an instance of the WebGL renderer.
 The renderer is a tool that Three.js uses
@@ -75,6 +76,17 @@ scene.add(sphere);
 
 // sphere.position.x = -10;
 sphere.position.set(-10, 10, 0);
+
+const gui = new dat.GUI();
+
+/* Change the color of the sphere */
+const options = {
+  sphereColor: "#ffea00",
+};
+
+gui.addColor(options, "sphereColor").onChange((e) => {
+  sphere.material.color.set(e);
+});
 
 function animate(time) {
   box.rotation.x = time / 1000;
