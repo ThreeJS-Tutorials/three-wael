@@ -1,5 +1,6 @@
 /* Create a name space */
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 /* Create an instance of the WebGL renderer.
 The renderer is a tool that Three.js uses
@@ -26,8 +27,23 @@ It mearly introduces the 3D coordinate system.  */
 const axesHelper = new THREE.AxesHelper(3); // 5 is the length of the axes.
 scene.add(axesHelper);
 
-// camera.position.set(2, 2, 2);
-camera.position.z = 3;
+// x, y, z
+camera.position.set(0, 2, 5);
+// camera.position.z = 3;
+// camera.position.y = 2;
 
-/* Link the scene with the camera */
-renderer.render(scene, camera);
+// Red cube
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const box = new THREE.Mesh(geometry, material);
+scene.add(box);
+
+function animate(time) {
+  box.rotation.x = time / 1000;
+  box.rotation.y = time / 1000;
+
+  /* Link the scene with the camera */
+  renderer.render(scene, camera);
+}
+
+renderer.setAnimationLoop(animate);
