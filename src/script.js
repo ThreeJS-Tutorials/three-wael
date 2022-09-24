@@ -22,6 +22,8 @@ const camera = new THREE.PerspectiveCamera(
   1000 // far
 );
 
+const orbit = new OrbitControls(camera, renderer.domElement);
+
 /* The axesHelper is a tool, that serves as a guide.
 It mearly introduces the 3D coordinate system.  */
 const axesHelper = new THREE.AxesHelper(3); // 5 is the length of the axes.
@@ -29,6 +31,7 @@ scene.add(axesHelper);
 
 // x, y, z
 camera.position.set(0, 2, 5);
+orbit.update(); // Important! update every time we set the camera position
 // camera.position.z = 3;
 // camera.position.y = 2;
 
