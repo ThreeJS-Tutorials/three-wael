@@ -58,6 +58,17 @@ plane.rotation.x = -0.5 * Math.PI;
 const gridHelper = new THREE.GridHelper(30, 50);
 scene.add(gridHelper);
 
+/* Reduce the width and height segments to have a less rounded sphere; 
+add the last 10, 10 */
+const sphereGeo = new THREE.SphereGeometry(4, 50, 50);
+const sphereMat = new THREE.MeshBasicMaterial({
+  color: 0x0000ff,
+  /* remove the color */
+  wireframe: false,
+});
+const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+scene.add(sphere);
+
 function animate(time) {
   box.rotation.x = time / 1000;
   box.rotation.y = time / 1000;
