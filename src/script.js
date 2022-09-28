@@ -102,6 +102,18 @@ directionalLight.shadow.camera.bottom = -12; // shift the bottom side of the cam
 const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5); // size of square = 5
 scene.add(dLightHelper); // It's the square above the cube.
 
+// SPOT LIGHT ////////////
+const spotLight = new THREE.SpotLight(0xffffff);
+scene.add(spotLight);
+spotLight.position.set(-100, 100, 0);
+// The shadow is pixelated at first because the angle is too wide.
+spotLight.castShadow = true;
+spotLight.angle = 0.2;
+
+// SPOT LIGHT HELPER //////////
+const sLightHelper = new THREE.SpotLightHelper(spotLight);
+scene.add(sLightHelper);
+
 /* Shadows in Three.js use cameras,
 which delimit where to render the shadows.
 Each type of light, has a specifiek type of camera.
@@ -122,6 +134,9 @@ const options = {
   /* Add a checkbox to show the mesh in its wireframe mode when it's checked. */
   wireframe: false,
   speed: 0.01,
+  angle: 0.2,
+  penumbra: 0,
+  intensity: 1,
 };
 
 gui.addColor(options, "sphereColor").onChange((e) => {
@@ -133,7 +148,11 @@ gui.add(options, "wireframe").onChange(function (e) {
 });
 
 /* min val = 0 / max = 0.1 */
-gui.add(options, "speed", 0, 0.1);
+gui.add(options, "speed", 0, 1);
+
+gui.add(options, "angle", 0, 1);
+gui.add(options, "penumbra", 0, 1);
+gui.add(options, "intensity", 0, 1);
 
 /* Make the sphere bounce */
 let step = 0;
@@ -147,6 +166,13 @@ function animate(time) {
   /* Make the sphere bounce */
   step += options.speed;
   sphere.position.y = 10 * Math.abs(Math.sin(step));
+
+  spotLight.angle = options.angle;
+  spotLight.penumbra = options.penumbra; // ads a prograsive blure effect to edje of the spot.
+  spotLight.intensity = options.intensity;
+  // IMPORTANT !!!!
+  sLightHelper.update();
+
   /* Link the scene with the camera */
   renderer.render(scene, camera);
 }
