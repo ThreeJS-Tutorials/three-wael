@@ -108,7 +108,7 @@ scene.add(spotLight);
 spotLight.position.set(-100, 100, 0);
 // The shadow is pixelated at first because the angle is too wide.
 spotLight.castShadow = true;
-spotLight.angle = 0.2;
+spotLight.angle = 0.2; // decrease shadow angle
 
 // SPOT LIGHT HELPER //////////
 const sLightHelper = new THREE.SpotLightHelper(spotLight);
@@ -124,6 +124,17 @@ const dLightShadowHelper = new THREE.CameraHelper(
   directionalLight.shadow.camera
 );
 scene.add(dLightShadowHelper);
+
+// FOG /////////////
+/* near = 0, far = 200
+The further we go from 0 going backwards,
+the denser the fog gets. 
+The same counts for going further than 200. */
+// scene.fog = new THREE.Fog(0xffffff, 0, 200);
+
+// other method for creating fog
+/*  density = 0.01, with this the density grows expodentialy */
+// scene.fog = new THREE.FogEpx2(0xffffff, 0.01); // gives error
 
 // DAT.GUI //////////////
 const gui = new dat.GUI();
