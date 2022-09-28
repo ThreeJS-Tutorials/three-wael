@@ -8,6 +8,9 @@ The renderer is a tool that Three.js uses
 to alocate space on a webpage, where we can add and animate all the 3D stuff. */
 const renderer = new THREE.WebGLRenderer();
 
+// enable shadows
+renderer.shadowMap.enabled = true;
+
 /* Set the size of the space */
 renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -55,6 +58,9 @@ scene.add(plane);
 /* Make the plane match the grid, we rotate it. */
 plane.rotation.x = -0.5 * Math.PI;
 
+/* The plane receives shadows */
+plane.receiveShadow = true;
+
 // size of grid = 30 / amount of squares = 50
 const gridHelper = new THREE.GridHelper(30, 50);
 scene.add(gridHelper);
@@ -78,6 +84,9 @@ scene.add(sphere);
 // sphere.position.x = -10;
 sphere.position.set(-10, 10, 0);
 
+/* The sphere casts shadows */
+sphere.castShadow = true;
+
 // AMBIENT LIGHT //////////
 /* In order to see the light we need to change the Mesh material of the elements.*/
 const ambientLight = new THREE.AmbientLight(0x333333);
@@ -87,10 +96,22 @@ scene.add(ambientLight);
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8); //  intencity = 0.8
 scene.add(directionalLight);
 directionalLight.position.set(-30, 50, 0);
-
+directionalLight.castShadow = true;
+directionalLight.shadow.camera.bottom = -12; // shift the bottom side of the camera.
 // LIGHT HELPER ////////////
 const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5); // size of square = 5
 scene.add(dLightHelper); // It's the square above the cube.
+
+/* Shadows in Three.js use cameras,
+which delimit where to render the shadows.
+Each type of light, has a specifiek type of camera.
+e.g. directional light uses an orthographic camera. 
+Further more to visualize the space that the shadow camera marks, 
+we can use another helper. */
+const dLightShadowHelper = new THREE.CameraHelper(
+  directionalLight.shadow.camera
+);
+scene.add(dLightShadowHelper);
 
 // DAT.GUI //////////////
 const gui = new dat.GUI();
