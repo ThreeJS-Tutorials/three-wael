@@ -36,15 +36,15 @@ orbit.update(); // Important! update every time we set the camera position
 // camera.position.z = 3;
 // camera.position.y = 2;
 
-// Red cube
+// CUBE //////////
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 const box = new THREE.Mesh(geometry, material);
 scene.add(box);
 
-// Plane
+// PLANE ///////////
 const planeGeo = new THREE.PlaneGeometry(30, 30);
-const planeMaterial = new THREE.MeshBasicMaterial({
+const planeMaterial = new THREE.MeshStandardMaterial({
   color: 0xffffff,
   /* Add the side prop to the material, to see it also from behind.  */
   side: THREE.DoubleSide,
@@ -59,6 +59,7 @@ plane.rotation.x = -0.5 * Math.PI;
 const gridHelper = new THREE.GridHelper(30, 50);
 scene.add(gridHelper);
 
+// SPHERE /////////////
 /* Reduce the width and height segments to have a less rounded sphere; 
 add the last 10, 10 */
 const sphereGeo = new THREE.SphereGeometry(4, 50, 50);
@@ -66,7 +67,7 @@ const sphereGeo = new THREE.SphereGeometry(4, 50, 50);
 /* Change the material. 
 With MeshStandardMaterial or MeshLambertMaterial, 
 the sphere is black because it has no light. */
-const sphereMat = new THREE.MeshBasicMaterial({
+const sphereMat = new THREE.MeshStandardMaterial({
   color: 0x0000ff,
   /* remove the color */
   wireframe: false,
@@ -77,6 +78,21 @@ scene.add(sphere);
 // sphere.position.x = -10;
 sphere.position.set(-10, 10, 0);
 
+// AMBIENT LIGHT //////////
+/* In order to see the light we need to change the Mesh material of the elements.*/
+const ambientLight = new THREE.AmbientLight(0x333333);
+scene.add(ambientLight);
+
+// DIRECTIONAL LIGHT //////////
+const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8); //  intencity = 0.8
+scene.add(directionalLight);
+directionalLight.position.set(-30, 50, 0);
+
+// LIGHT HELPER ////////////
+const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 5); // size of square = 5
+scene.add(dLightHelper); // It's the square above the cube.
+
+// DAT.GUI //////////////
 const gui = new dat.GUI();
 
 /* Change the color of the sphere */
@@ -102,6 +118,7 @@ gui.add(options, "speed", 0, 0.1);
 let step = 0;
 // let speed = 0.01;
 
+// ANIMATE //////////////
 function animate(time) {
   box.rotation.x = time / 1000;
   box.rotation.y = time / 1000;
